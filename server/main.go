@@ -28,7 +28,14 @@ func main() {
 	app.Post("/api/todos", func(c *fiber.Ctx) error {
 		todo :=&Todo{}
 
-		c.BodyParser(todo)
+		 if err := c.BodyParser(todo); err != nil{
+			return nil
+		 }
+		 todo.ID =len(todos)+1;
+
+		 todos = append(todos, *todo)
+
+		 return c.JSON(todos)
 	})
 
 	log.Fatal(app.Listen(":4000"))
